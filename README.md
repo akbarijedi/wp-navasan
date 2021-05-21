@@ -1,4 +1,4 @@
-![Screenshot](stock-market-forex-trading-graph-graphic-concept_73426-80.jpg)
+![Screenshot](wp-navasan.jpg)
 # WP-NAVASAN 
 A WordPress widget to show latest Forex rates 
 ### please get API key from http://navasan.tech (free for 120 req per month)
