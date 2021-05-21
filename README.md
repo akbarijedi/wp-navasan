@@ -1,6 +1,7 @@
 ![Screenshot](wp-navasan.jpg)
 # WP-NAVASAN 
 A WordPress widget to show latest Forex rates 
+> you can adjust the price that you want ( increase or decrease )
 ### please get API key from http://navasan.tech (free for 120 req per month)
 
 ## Installation
