@@ -1,21 +1,22 @@
 <?php
 
 /**
- * Created by Hadi AJ.
+ * Advance CURL PHP Class
+ * By Hadi AkbariJedi.
  * Date: 11/4/2019
  * Time: 4:29 PM
  */
 
 class MyCurl
 {
+//  Class  Parameters
     private $url;
     private $params;
     private $headers;
     private $curl;
     private $mh;
 
-
-
+    //Get CURL Ready
     public function craete_curl($url, $param, $headers = array())
     {
 
@@ -38,6 +39,7 @@ class MyCurl
         return $this->curl;
     }
 
+    // ADD header to CURL
     public function add_handler($curl)
     {
 
@@ -50,6 +52,7 @@ class MyCurl
         return $this->mh;
     }
 
+    // EXECUTE ONE CURL
     public function exec_curl($mh, $curl)
     {
 
@@ -72,20 +75,21 @@ class MyCurl
         curl_multi_close($mh);
         return $res;
     }
-    // Call THIS
+
+    //  Call THIS
     public function go($url, $params, $headers)
     {
         $this->url = $url;
         $this->params = $params;
         $this->headers = $headers;
 
-        // creae curl
+        // Create curl
         $curl = $this->craete_curl($this->url, $this->params, $this->headers);
 
-        //add to handeler
+        //Add to Handler
         $mh = $this->add_handler($curl);
 
-        //execute curl
+        //Execute curl
         return $this->exec_curl($mh, $curl);
     }
 }

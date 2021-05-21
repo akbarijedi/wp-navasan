@@ -1,10 +1,10 @@
 <?php
 /*
- Plugin Name: Widget ARZ Prices with API
+ Plugin Name: Widget NAVASAN Prices with API
  Plugin URI: 
  Description: Latest Forex Rates.
  Version: 2
- Author: Hadi Akbari WEBSTART Team Ltd.
+ Author: BY navasan.tech Team and Customized by Hadi Akbari(WEBSTART Team) to use API
  Author URI: 
  License: MIT
  */
@@ -34,11 +34,11 @@ class My_Custom_Widget extends WP_Widget
         // Set widget defaults
         $defaults = array(
             'title'    => 'نرخ ارز',
-            //'show_change'  => true,
-            //'show_date' => true,
+            'show_change'  => true,
+            'show_date' => true,
             'select'   => ['usd', 'eur'],
             'amount_change' => [],
-            'api' => 'MUST ENTERED from website sunnyweb.ir'
+            'api' => 'Get from http://navasan.tech'
         );
 
         // Parse current settings with defaults
@@ -57,18 +57,18 @@ class My_Custom_Widget extends WP_Widget
 
             <?php // Checkbox 
             ?>
-<!--        <p>
-            <input id="<?php /*echo esc_attr($this->get_field_id('show_change')); */?>" name="<?php /*echo esc_attr($this->get_field_name('show_change')); */?>" type="checkbox" value="1" <?php /*checked('1', $show_change); */?> />
-            <label for="<?php /*echo esc_attr($this->get_field_id('show_change')); */?>"><?php /*_e('Show Change', 'text_domain'); */?></label>
+        <p>
+            <input id="<?php echo esc_attr($this->get_field_id('show_change')); ?>" name="<?php echo esc_attr($this->get_field_name('show_change')); ?>" type="checkbox" value="1" <?php checked('1', $show_change); ?> />
+            <label for="<?php echo esc_attr($this->get_field_id('show_change')); ?>"><?php _e('Show Change', 'text_domain'); ?></label>
         </p>
--->
-        <?php // Checkbox 
+
+        <?php // Checkbox
         ?>
-<!--        <p>
-            <input id="<?php /*echo esc_attr($this->get_field_id('show_date')); */?>" name="<?php /*echo esc_attr($this->get_field_name('show_date')); */?>" type="checkbox" value="1" <?php /*checked('1', $show_date); */?> />
-            <label for="<?php /*echo esc_attr($this->get_field_id('show_date')); */?>"><?php /*_e('Show time', 'text_domain'); */?></label>
+        <p>
+            <input id="<?php echo esc_attr($this->get_field_id('show_date')); ?>" name="<?php echo esc_attr($this->get_field_name('show_date')); ?>" type="checkbox" value="1" <?php checked('1', $show_date); ?> />
+            <label for="<?php echo esc_attr($this->get_field_id('show_date')); ?>"><?php _e('Show time', 'text_domain'); ?></label>
         </p>
--->
+
         <?php // Dropdown 
         ?>
         <p>
@@ -96,7 +96,7 @@ class My_Custom_Widget extends WP_Widget
         <p>
 
             <hr />
-            <label for="<?php echo $this->get_field_id('select'); ?>"><?php _e('Change', 'text_domain'); ?></label>
+            <label for="<?php echo $this->get_field_id('select'); ?>"><?php _e('Change Prices increase OR decrease in TOMAN:', 'text_domain'); ?></label>
             <?php
             $index = 0;
             foreach ($options as $key => $name) {
@@ -105,7 +105,6 @@ class My_Custom_Widget extends WP_Widget
                     $index++;
                 }
             }
-            //var_dump($instance['amount_change']);
             ?>
 
         </p>
@@ -119,8 +118,8 @@ class My_Custom_Widget extends WP_Widget
         $instance = $old_instance;
         $instance['title']    = isset($new_instance['title']) ? wp_strip_all_tags($new_instance['title']) : '';
         $instance['api']    = isset($new_instance['api']) ? wp_strip_all_tags($new_instance['api']) : '';
-        //$instance['show_change'] = isset($new_instance['show_change']) ? 1 : false;
-        //$instance['show_date'] = isset($new_instance['show_date']) ? 1 : false;
+        $instance['show_change'] = isset($new_instance['show_change']) ? 1 : false;
+        $instance['show_date'] = isset($new_instance['show_date']) ? 1 : false;
         $instance['select']   = isset($new_instance['select']) ? ($new_instance['select']) : [];
         $instance['amount_change'] = isset($new_instance['amount_change']) ? ($new_instance['amount_change']) : [];
 
@@ -129,10 +128,9 @@ class My_Custom_Widget extends WP_Widget
 
     public function widget($args, $instance)
     {
-
         extract($args);
 
-        // Your options array
+        // options array
         $options = array_merge(
             $curs2 = ["usd" => "دلار آمریکا", "eur" => "یورو", "gbp" => "پوند انگلیس", "aed_note" => "درهم امارات", "try" => "لیر ترکیه", "jpy" => "ین ژاپن", "aud" => "دلار استرالیا", "nzd" => "دلار نیوزلند", "cad" => "دلار کانادا", "sgd" => "دلار سنگاپور", "chf" => "فرانک سویس", "pkr" => "روپیه پاکستان", "azn" => "منات آذربایجان"],
             $curs1 = ["nok" => "کرون نروژ", "sek" => "کرون سوئد", "dkk" => "کرون دانمارک", "kwd" => "دینار کویت", "omr" => "ریال عمان", "rub" => "روبل روسیه", "brl" => "رئال برزیل", "thb" => "بات تایلند", "afn" => "افغانی", "inr" => "روپیه هند", "cny" => "یوان چین", "myr" => "رینگیت مالزی", "gel" => "لاری گرجستان"],
@@ -159,10 +157,9 @@ class My_Custom_Widget extends WP_Widget
         $query = trim($query, '&amp;');
 
 
-//        GET PRICES WITH API
+//      Instance CURL Class and GET PRICE DATA WITH API
         $navasandata = new MyCurl;
         $response = json_decode($navasandata->go('http://api.navasan.tech/latest/?api_key=' . $api, [], []));
-        var_dump(json_decode($response)->usd->value);
 
 
         // WordPress core before_widget hook (always include )
@@ -190,25 +187,24 @@ class My_Custom_Widget extends WP_Widget
                 </thead>
                 <tbody>
                     <?php
-                    // $index = 0;
-                    // foreach ($options as $key1 => $value1) {
+                     $index = 0;
+                     foreach ($options as $key1 => $value1) {
 
-                    //     if (in_array($key1, $select)) {
-                    //         $color = ((int)$response->$key1->change >= 0) ? 'color:green;' : 'color:red;';
-                    //         if ((int)$response->$key1->change > 0)  $icon = '▲';
-                    //         elseif ((int)$response->$key1->change < 0) $icon = '▼';
-                    //         else $icon = '';
-                    //         //var_dump($response->$key1->value);
-                    //         echo "<tr>";
-                    //         echo "<td>" . $options[$key1] . "</td>";
-                    //         echo "<td>" . strtoupper($key1) . "</td>";
-                    //         echo "<td style='text-alighn:left'>" . number_format(($response->$key1->value +  (int)$amount_change[$index]), 0) . "</td>";
-                    //         echo "<td style='" . $color . "'>" . number_format((int)$response->$key1->change, 0) . " " . $icon . "</td>";
-                    //         echo "<td>" . $response->$key1->date . "</td>";
-                    //         echo "</tr>";
-                    //         $index++;
-                    //     }
-                    // }
+                         if (in_array($key1, $select)) {
+                             $color = ((int)$response->$key1->change >= 0) ? 'color:green;' : 'color:red;';
+                             if ((int)$response->$key1->change > 0)  $icon = '▲';
+                             elseif ((int)$response->$key1->change < 0) $icon = '▼';
+                             else $icon = '';
+                             echo "<tr>";
+                             echo "<td>" . $options[$key1] . "</td>";
+                             echo "<td>" . strtoupper($key1) . "</td>";
+                             echo "<td style='text-alighn:left'>" . number_format(($response->$key1->value +  (int)$amount_change[$index]), 0) . "</td>";
+                             echo "<td style='" . $color . "'>" . number_format((int)$response->$key1->change, 0) . " " . $icon . "</td>";
+                             echo "<td>" . $response->$key1->date . "</td>";
+                             echo "</tr>";
+                             $index++;
+                         }
+                     }
 
                     ?>
                 </tbody>
@@ -225,48 +221,6 @@ class My_Custom_Widget extends WP_Widget
 
                 <?php } ?>
             </style>
-            <script scoped>
-                function navasanret(data) {
-                    console.table(JSON.parse((data)));
-                    return;
-                    if (data == "") return;
-                    let myid = "<?= $this->id ?>";
-
-                    let selected_cur = <?= json_encode($select) ?>;
-                    let changes = <?= json_encode($amount_change) ?>;
-                    let original_data = (JSON.parse((data)));
-                    let query = "<?= $query ?>";
-                    jQuery('a[href*="navasan.net"]').hide();
-                    //console.log(myid, JSON.parse((data)), query)
-                    let ind = 0;
-                    const p2e = s => s.replace(/[۰-۹]/g, d => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d))
-                    document.getElementById(myid).innerHTML = original_data;
-
-                    selected_cur.forEach(function(item) {
-                        let value = jQuery('#' + item + ' .val').text()
-                        jQuery('#' + item + ' .val').text((Number(p2e(value.replaceAll(",", ""))) + Number(changes[ind])).toLocaleString())
-                        //console.log((p2e(value.replaceAll(",", ""))) + Number(changes[ind]), ind)
-                        ind++;
-                    });
-                    ind = 0
-
-                    //console.log(parseInt(value.replaceAll(",", "")) + parseInt(changes[ind]));
-                }
-
-                jQuery(function() {
-                    jQuery.support.cors = true;
-                    jQuery.ajax({
-                        url: "http://www.navasan.tech/wp-navasan.php?<?= $query ?>",
-                        dataType: "jsonp",
-                        success: function(data) {
-                            console.log(data)
-                            //alert(data);
-                        }
-                    });
-
-                });
-            </script>
-            <!-- <script src="http://www.navasan.tech/wp-navasan.php?<?= $query ?>" scoped></script> -->
         </div>
 
 <?php
