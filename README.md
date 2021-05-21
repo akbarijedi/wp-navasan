@@ -1,6 +1,6 @@
 # wp-navasan
 A WordPress widget to show latest Forex rates 
-### please get API key from http://navasan.tech
+### please get API key from http://navasan.tech (free for 120 req per month)
 
 # Installation
 1. go to your worpress admin pannel
