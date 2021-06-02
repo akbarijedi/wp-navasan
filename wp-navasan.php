@@ -1,11 +1,11 @@
 <?php
 /*
- Plugin Name: Widget NAVASAN Prices with API
- Plugin URI: 
- Description: Latest Forex Rates.
- Version: 2
- Author: BY navasan.tech Team and Customized by Hadi Akbari(WEBSTART Team) to use API
- Author URI: 
+ Plugin Name: Widget NAVASAN
+ Plugin URI: https://github.com/akbarijedi/wp-navasan/
+ Description: Latest Forex Rates with navasan.tech API.
+ Version: 1.0.0
+ Author: BY NV Team and Developed by Hadi Akbarijedi (WEBSTART Team) to use API
+ Author URI: https://webstart.ir
  License: MIT
  */
 
@@ -21,7 +21,7 @@ class My_Custom_Widget extends WP_Widget
     {
         parent::__construct(
             'wp_navasan',
-            __('WP Navasan', 'text_domain'),
+            __('WP Navasan API', 'text_domain'),
             array(
                 'customize_selective_refresh' => true,
             )
@@ -44,7 +44,7 @@ class My_Custom_Widget extends WP_Widget
         // Parse current settings with defaults
         extract(wp_parse_args((array) $instance, $defaults)); ?>
 
-        <?php // Widget Title 
+        <?php // Widget Title
         ?>
         <p>
             <label for="<?php echo esc_attr($this->get_field_id('title')); ?>"><?php _e('Widget Title', 'text_domain'); ?></label>
@@ -55,7 +55,7 @@ class My_Custom_Widget extends WP_Widget
             <label for="<?php echo esc_attr($this->get_field_id('api')); ?>"><?php _e('API navasan', 'text_domain'); ?></label>
             <input type="text" class="widefat" id="<?php echo esc_attr($this->get_field_id('api')); ?>" name="<?php echo esc_attr($this->get_field_name('api')); ?>" value="<?php echo esc_attr($api); ?>">
 
-            <?php // Checkbox 
+            <?php // Checkbox
             ?>
         <p>
             <input id="<?php echo esc_attr($this->get_field_id('show_change')); ?>" name="<?php echo esc_attr($this->get_field_name('show_change')); ?>" type="checkbox" value="1" <?php checked('1', $show_change); ?> />
@@ -69,7 +69,7 @@ class My_Custom_Widget extends WP_Widget
             <label for="<?php echo esc_attr($this->get_field_id('show_date')); ?>"><?php _e('Show time', 'text_domain'); ?></label>
         </p>
 
-        <?php // Dropdown 
+        <?php // Dropdown
         ?>
         <p>
             <label for="<?php echo $this->get_field_id('select'); ?>"><?php _e('Currencies', 'text_domain'); ?></label>
@@ -95,17 +95,17 @@ class My_Custom_Widget extends WP_Widget
         </p>
         <p>
 
-            <hr />
-            <label for="<?php echo $this->get_field_id('select'); ?>"><?php _e('Change Prices increase OR decrease in TOMAN:', 'text_domain'); ?></label>
-            <?php
-            $index = 0;
-            foreach ($options as $key => $name) {
-                if (in_array(esc_attr($key), $instance['select'])) {
-                    echo '<br/><input name="' . $this->get_field_name('amount_change') . '[]' . '" value="' . $instance['amount_change'][$index] . '" id="' . $this->get_field_id('amount_change') . '">' . $name . '</input>';
-                    $index++;
-                }
+        <hr />
+        <label for="<?php echo $this->get_field_id('select'); ?>"><?php _e('Change Prices increase OR decrease in TOMAN:', 'text_domain'); ?></label>
+        <?php
+        $index = 0;
+        foreach ($options as $key => $name) {
+            if (in_array(esc_attr($key), $instance['select'])) {
+                echo '<br/><input name="' . $this->get_field_name('amount_change') . '[]' . '" value="' . $instance['amount_change'][$index] . '" id="' . $this->get_field_id('amount_change') . '">' . $name . '</input>';
+                $index++;
             }
-            ?>
+        }
+        ?>
 
         </p>
 
@@ -151,12 +151,6 @@ class My_Custom_Widget extends WP_Widget
         $query = '';
 
 
-        foreach ($select as $k) {
-            $query .= '&amp;' . $k;
-        }
-        $query = trim($query, '&amp;');
-
-
 //      Instance CURL Class and GET PRICE DATA WITH API
         $navasandata = new MyCurl;
         $response = json_decode($navasandata->go('http://api.navasan.tech/latest/?api_key=' . $api, [], []));
@@ -172,41 +166,41 @@ class My_Custom_Widget extends WP_Widget
         if ($title) {
             echo $before_title . $title . $after_title;
         }
-    ?>
+        ?>
 
         <div id='prlist' scoped>
             <table class="price_table">
                 <thead>
-                    <tr>
-                        <td>نام ارز</td>
-                        <td>نام کد</td>
-                        <td>قیمت به تومان</td>
-                        <td>تغییرات نسبت به روز گذشته</td>
-                        <td>تاریخ</td>
-                    </tr>
+                <tr>
+                    <td>نام ارز</td>
+                    <td>نام کد</td>
+                    <td>قیمت به تومان</td>
+                    <td>تغییرات نسبت به روز گذشته</td>
+                    <td>تاریخ</td>
+                </tr>
                 </thead>
                 <tbody>
-                    <?php
-                     $index = 0;
-                     foreach ($options as $key1 => $value1) {
+                <?php
+                $index = 0;
+                foreach ($options as $key1 => $value1) {
 
-                         if (in_array($key1, $select)) {
-                             $color = ((int)$response->$key1->change >= 0) ? 'color:green;' : 'color:red;';
-                             if ((int)$response->$key1->change > 0)  $icon = '▲';
-                             elseif ((int)$response->$key1->change < 0) $icon = '▼';
-                             else $icon = '';
-                             echo "<tr>";
-                             echo "<td>" . $options[$key1] . "</td>";
-                             echo "<td>" . strtoupper($key1) . "</td>";
-                             echo "<td style='text-alighn:left'>" . number_format(($response->$key1->value +  (int)$amount_change[$index]), 0) . "</td>";
-                             echo "<td style='" . $color . "'>" . number_format((int)$response->$key1->change, 0) . " " . $icon . "</td>";
-                             echo "<td>" . $response->$key1->date . "</td>";
-                             echo "</tr>";
-                             $index++;
-                         }
-                     }
+                    if (in_array($key1, $select)) {
+                        $color = ((int)$response->$key1->change >= 0) ? 'color:green;' : 'color:red;';
+                        if ((int)$response->$key1->change > 0)  $icon = '▲';
+                        elseif ((int)$response->$key1->change < 0) $icon = '▼';
+                        else $icon = '';
+                        echo "<tr>";
+                        echo "<td>" . $options[$key1] . "</td>";
+                        echo "<td>" . strtoupper($key1) . "</td>";
+                        echo "<td style='text-alighn:left'>" . number_format(($response->$key1->value +  (int)$amount_change[$index]), 0) . "</td>";
+                        echo "<td style='" . $color . "'>" . number_format((int)$response->$key1->change, 0) . " " . $icon . "</td>";
+                        echo "<td>" . $response->$key1->date . "</td>";
+                        echo "</tr>";
+                        $index++;
+                    }
+                }
 
-                    ?>
+                ?>
                 </tbody>
             </table>
 
@@ -223,11 +217,11 @@ class My_Custom_Widget extends WP_Widget
             </style>
         </div>
 
-<?php
+        <?php
 
 
         echo '</div>';
-        //echo $query;
+
 
         // WordPress core after_widget hook (always include )
         echo $after_widget;
