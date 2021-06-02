@@ -1,10 +1,10 @@
 <?php
 /*
- Plugin Name: Widget NAVASAN Prices with API
+ Plugin Name: Widget NAVASAN
  Plugin URI: 
- Description: Latest Forex Rates.
+ Description: Latest Forex Rates with navasan.tech API.
  Version: 2
- Author: BY navasan.tech Team and Customized by Hadi Akbari(WEBSTART Team) to use API
+ Author: BY NV Team and Developed by Hadi Akbarijedi (WEBSTART Team) to use API
  Author URI: 
  License: MIT
  */
@@ -21,7 +21,7 @@ class My_Custom_Widget extends WP_Widget
     {
         parent::__construct(
             'wp_navasan',
-            __('WP Navasan', 'text_domain'),
+            __('WP Navasan API', 'text_domain'),
             array(
                 'customize_selective_refresh' => true,
             )
@@ -151,12 +151,6 @@ class My_Custom_Widget extends WP_Widget
         $query = '';
 
 
-        foreach ($select as $k) {
-            $query .= '&amp;' . $k;
-        }
-        $query = trim($query, '&amp;');
-
-
 //      Instance CURL Class and GET PRICE DATA WITH API
         $navasandata = new MyCurl;
         $response = json_decode($navasandata->go('http://api.navasan.tech/latest/?api_key=' . $api, [], []));
@@ -227,7 +221,7 @@ class My_Custom_Widget extends WP_Widget
 
 
         echo '</div>';
-        //echo $query;
+
 
         // WordPress core after_widget hook (always include )
         echo $after_widget;
