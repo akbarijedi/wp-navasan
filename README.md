@@ -33,7 +33,7 @@ Major features in widget include:
 1. Go to the Wordpress admin panel
 2. Go to plugin page
 3. Add New plugin
-4. Search for "Nevadan"
+4. Search for "navasan"
 5. Install the plugin
 6. Activate it
 7. Go to themes -> widget
