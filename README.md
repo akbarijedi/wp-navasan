@@ -1,8 +1,17 @@
 ![Screenshot](wp-navasan.jpg)
+
+
 # WP-NAVASAN 
-A WordPress widget to show latest Forex rates 
-> you can adjust the price that you want ( increase or decrease )
-### please get API key from http://navasan.tech (free for 120 req per month)
+NAVASAN is a WordPress widget to show latest Iran currencies rates
+
+Major features in widget include:
+
+* Get the latest currencies price (update every 5 Sec).
+* you can adjust the price that you want ( increase or decrease )
+
+> please get API key from http://navasan.tech (it's free for 120 requests)
+
+
 
 ## Installation
 1. go to your worpress admin pannel
@@ -17,3 +26,10 @@ A WordPress widget to show latest Forex rates
 10. Hit save button
 
  Done! :wink:
+
+
+## Changelog
+
+### Version 1.0.0 
+* Release Date - 25 May 2021*
+* Just first release of plugin
