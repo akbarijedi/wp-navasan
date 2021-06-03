@@ -4,20 +4,26 @@ Tags: Latest Iran Currencies rates
 Requires at least: 4.6
 Tested up to: 5.7
 Stable tag: 1.0.0
-License: GPLv2 or later
+License: GPLv2
 
 Get the Latest Currencies rates with navasan.tech API
 
 == Description ==
 
-Navasan is a widget that shows a Latest Iran Currencies rates with navasan.tech API
+Navasan is a widget that shows a Latest Iran Currencies rates with navasan.tech API key
 
-Major features in Sunnyweb widget include:
+Major features in widget include:
 
 * Get the latest currencies price (update every 5 Sec).
 * Ability to adjust the prices.
 
-PS: You must get API key to use it from navasan.tech and enter into API key in the widget.
+PS: You must get API key to use it from http://navasan.tech and enter into API key in the widget.
+
+== Screenshots ==
+
+1. Admin pannel in widget page
+2. Example 1 in frontPage (Crypto currencies prices)
+3. Example 2 in frontPage (Forex -USD/TONAN, EURO/TOMAN- prices)
 
 == Installation ==
 
@@ -36,5 +42,4 @@ PS: You must get API key to use it from navasan.tech and enter into API key in t
 
 = 1.0.0 =
 *Release Date - 25 May 2021*
-
 * Just first release of plugin
